@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - Farm2Bag</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 25px;
+            padding: 5px 15px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 15px;
+            width: 200px;
+        }
+
+        .search-bar button {
+            background: #ff9800;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #e68900;
+        }
+
+        .hero {
+            background: url('images/product-banner.jpg') no-repeat center center/cover;
+            text-align: center;
+            padding: 120px 20px;
+            color: rgb(0, 0, 0);
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .filter-bar {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .filter-bar button {
+            background: #004d40;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .filter-bar button:hover {
+            background: #ff9800;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            /* Space between items */
+            padding: 40px 20px;
+            justify-content: center;
+            overflow-x: hidden;
+            /* Prevents horizontal scrolling */
+            max-height: none;
+            /* Ensures it doesn’t limit height */
+        }
+
+        .product-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 280px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product-card h3 {
+            font-size: 1.5em;
+            color: #004d40;
+            margin: 10px 0;
+        }
+
+        .product-card p {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .product-card button {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .product-card button:hover {
+            background: #e68a00;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Farm2Bag</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="home.html#categories">Categories</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="cart.html">Cart(<span id="cart-count">0</span>) - <span id="total-price">₹0.00</span></a></li>
+                <li><a href="profile.php">Profile</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeydown="handleKey(event)">
+            <button onclick="searchProducts()">🔍</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Our Fresh Farm Products</h1>
+        <p>Directly sourced from local farmers, ensuring quality and freshness.</p>
+    </section>
+
+    <div class="filter-bar">
+        <button onclick="filterProducts('all')">All</button>
+        <button onclick="filterProducts('fruits')">Fruits</button>
+        <button onclick="filterProducts('vegetables')">Vegetables</button>
+        <button onclick="filterProducts('grocery')">Grocery</button>
+        <button onclick="filterProducts('dairy')">Dairy</button>
+        <button onclick="filterProducts('cosmetics')">Cosmetics</button>
+    </div>
+
+    <section class="product-grid">
+        <div class="product-card" data-category="fruits">
+            <img src="images/apple.jpg" alt="Apple">
+            <h3>Fresh Apples</h3>
+            <p>₹120 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Apple', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="vegetables">
+            <img src="images/carrot.jpg" alt="Carrot">
+            <h3>Organic Carrots</h3>
+            <p>₹60 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Carrot', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="grocery">
+            <img src="images/rice.jpg" alt="Rice">
+            <h3>Natural Rice</h3>
+            <p>₹50 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Natural Rice', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="dairy">
+            <img src="images/milk.jpg" alt="Milk">
+            <h3>Fresh Cow Milk</h3>
+            <p>₹40 per litre</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Milk', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="fruits">
+            <img src="images/banana.jpg" alt="Banana">
+            <h3>Organic Bananas</h3>
+            <p>₹30 per dozen</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Organic Banana', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="dairy">
+            <img src="images/ghee.jpg" alt="Ghee">
+            <h3>Ghee</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Ghee', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="dairy">
+            <img src="images/butter.webp" alt="Butter">
+            <h3>Butter</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Butter', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="dairy">
+            <img src="images/yogurt.jpg" alt="Yoghurt">
+            <h3>Yoghurt</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Yoghurt', 40)">Buy Now</button>
+        </div>
+
+        <div class="product-card" data-category="dairy">
+            <img src="images/curd.jpg" alt="Curd">
+            <h3>Curd</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Curd', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="images/grapes.webp" alt="Grapes">
+            <h3>Grapes</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Grapes', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="images/pineapple.jpg" alt="pineapple">
+            <h3>Pineapple</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Pineapple', 40)">Buy Now</button>
+
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="images/orange.jpg" alt="Orange">
+            <h3>Orange</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Orange', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="images/custardapple.webp" alt="Custardapple">
+            <h3>Custardapple</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Custard Apple', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="images/guava.webp" alt="Guava">
+            <h3>Guava</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Guava', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/honey.jpg" alt="Honey">
+            <h3>Honey</h3>
+            <p>₹40 per lit</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Honey', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/garammasala.jpg" alt="Garam Masala">
+            <h3>Gram Masala</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Gram Masala', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/salt.jpg" alt="Salt">
+            <h3>Salt</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Salt', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/pepper.jpg" alt="Pepper">
+            <h3>Pepper</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Pepper', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/riceflour.jpg" alt="Rice Flour">
+            <h3>Rice Flour</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Rice Flour', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/wheatflour.webp" alt="Wheat Flour">
+            <h3>Wheat Flour</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Wheat Flour', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/bayleaf.webp" alt="Bay Leaf">
+            <h3>Bay Leaf</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Bay Leaf', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/methiseeds.webp" alt="methiseeds">
+            <h3>Methi Seeds</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Methi Seeds', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/uraddal.jpg" alt="Ural Dal">
+            <h3>Ural Dal</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Ural Dal', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/masoordal.webp" alt="Masoor dal">
+            <h3>Masoor Dal</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Masoor Dal', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/chanadal.webp" alt="Chanadal">
+            <h3>Chanadal</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Chanadal', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="cosmetics">
+            <img src="images/aloavarasoap.jpg" alt="Aloavara Soap">
+            <h3>Aloavara Soap</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Aloavara Soap', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="cosmetics">
+            <img src="images/neemsoap.jpg" alt="Neem Soap">
+            <h3>Neem Soap</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Neem Soap', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="cosmetics">
+            <img src="images/lavendersoap.webp" alt="Lavender Soap">
+            <h3>Lavender Soap</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Lavender Sopa', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="cosmetics">
+            <img src="images/charcoalsoap.jpg" alt="Charcoal Soap">
+            <h3>Charcoal Soap</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Charcoal Soap', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="cosmetics">
+            <img src="images/neemoil.jpg" alt="Neem Oil">
+            <h3>Neem Oil</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Neem Oil', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="cosmetics">
+            <img src="images/beetrootlipbalm.webp" alt="Beetroot lip Balm">
+            <h3>Beetroot Lip Balam</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Beetroot Lip Balam', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="cosmetics">
+            <img src="images/avocadomask.jpg" alt="Avocado Mask">
+            <h3>Avocado Mask</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Avocado Mask', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/peanut.jpg" alt="Peanut">
+            <h3>Peanut</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Peanut', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/almond.webp" alt="Almond">
+            <h3>Almond</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Almond', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/pistachios.jpg" alt="Pista chios">
+            <h3>Pista chios</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Pista chios', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="grocery">
+            <img src="images/cashew.webp" alt="Cashew">
+            <h3>Cashew</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Cashew', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/tomato.jpg" alt="Tomato">
+            <h3>Tomato</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Tomato', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/potato.jpg" alt="Potato">
+            <h3>Potato</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Potato', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/bigonion.jpg" alt="Big Onion">
+            <h3>Big Onion</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Big Onion', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/cauiflower.jpg" alt="Califlower">
+            <h3>Califlower</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Califlower', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/greenbeans.jpg" alt="Green Beans">
+            <h3>Green Beans</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Green Beans', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/smallonion.jpg" alt="Small Onion">
+            <h3>Small Onion</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Small Onion', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/garlic.webp" alt="Garlic">
+            <h3>Garlic</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Garlic', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/beetroot.jpg" alt="Beetroot">
+            <h3>Beetroot</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Beetroot', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/mushroom.jpg" alt="Mushroom">
+            <h3>Mushroom</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Mushroom', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/cabbage.jpg" alt="Cabbage">
+            <h3>Cabbage</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Cabbage', 40)">Buy Now</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="images/spinach.jpg" alt="Spinach">
+            <h3>Spinach</h3>
+            <p>₹40 per kg</p>
+            <button>Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Spinach', 40)">Buy Now</button>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Farm2Bag. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function filterProducts(category) {
+            let products = document.querySelectorAll(".product-card");
+            products.forEach(product => {
+                if (category === "all" || product.getAttribute("data-category") === category) {
+                    product.style.display = "block";
+                } else {
+                    product.style.display = "none";
+                }
+            });
+        }
+        // Load cart from localStorage when the page loads
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Function to add items to the cart
+        function addToCart(productName, price) {
+            let quantity = parseInt(prompt(`Enter quantity for ${productName}:`, "1"));
+
+            if (!quantity || quantity <= 0) {
+                alert("Please enter a valid quantity!");
+                return;
+            }
+
+            // Check if the product already exists in the cart
+            let existingItem = cart.find(item => item.name === productName);
+
+            if (existingItem) {
+                existingItem.quantity += quantity;
+                existingItem.totalPrice += price * quantity;
+            } else {
+                cart.push({ name: productName, price: price, quantity: quantity, totalPrice: price * quantity });
+            }
+
+            // Save updated cart to localStorage
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            updateCartDisplay();
+        }
+
+        // Function to update cart count and total price
+        function updateCartDisplay() {
+            let cartCount = document.getElementById("cart-count");
+            let totalPrice = document.getElementById("total-price");
+
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let totalAmount = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+            cartCount.textContent = totalItems;
+            totalPrice.textContent = `₹${totalAmount.toFixed(2)}`;
+        }
+
+        // Attach event listeners to "Add to Cart" buttons
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCartDisplay(); // Load cart count when the page loads
+
+            let buttons = document.querySelectorAll(".product-card button:first-of-type");
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    let productCard = this.closest(".product-card");
+                    let productName = productCard.querySelector("h3").textContent;
+                    let price = parseFloat(productCard.querySelector("p").textContent.replace("₹", "").split(" ")[0]);
+
+                    addToCart(productName, price);
+                });
+            });
+        });
+        function buyNow(productName, price) {
+            // Create a cart item with default quantity 1
+            let cartItem = {
+                name: productName,
+                price: price,
+                quantity: 1,
+                totalPrice: price // Since quantity is 1, total price = price
+            };
+
+            // Store the cart item in localStorage (replace existing cart)
+            localStorage.setItem("cart", JSON.stringify([cartItem]));
+
+            // Redirect to cart.html
+            window.location.href = "cart.html";
+        }
+
+    </script>
+</body>
+
+</html>

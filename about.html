@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Farm2Bag</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 25px;
+            padding: 5px 15px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 15px;
+            width: 200px;
+        }
+
+        .search-bar button {
+            background: #ff9800;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #e68900;
+        }
+
+        .about-hero {
+            background: url('images/about-banner.jpg') no-repeat center center/cover;
+            text-align: center;
+            padding: 150px 20px;
+            color: rgb(4, 4, 4);
+            font-size: 1.8em;
+            position: relative;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .content-section h2 {
+            color: #004d40;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .content-section p {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .values-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 300px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .value-card h3 {
+            color: #ff9800;
+            font-size: 1.5em;
+        }
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+            width: 250px;
+        }
+
+        .team-member img {
+            width: 200px;
+            height: 200px;
+            border-radius: 20%;
+            margin-bottom: 10px;
+        }
+
+        .team-member h4 {
+            color: #004d40;
+            font-size: 1.3em;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Farm2Bag</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="home.html#categories">Categories</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="cart.html">Cart </a></li>
+                <li><a href="profile.php">Profile</a></li>
+        </nav>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeydown="handleKey(event)">
+            <button onclick="searchProducts()">🔍</button>
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <h1>About Farm2Bag</h1>
+        <p>Bridging the gap between farmers and consumers for a healthier tomorrow.</p>
+    </section>
+
+    <section class="content-section">
+        <h2>Our Mission</h2>
+        <p>At Farm2Bag, our mission is to provide fresh, organic, and chemical-free produce directly from farmers to
+            consumers.
+            We aim to empower local farmers while ensuring high-quality, affordable, and sustainable food for everyone.
+        </p>
+    </section>
+
+    <section class="content-section">
+        <h2>Our Vision</h2>
+        <p>We envision a future where every household has access to fresh and organic produce, supporting local farmers
+            and reducing
+            the carbon footprint of food transportation.</p>
+    </section>
+
+    <section class="content-section">
+        <h2>Our Values</h2>
+        <div class="values-container">
+            <div class="value-card">
+                <h3>Freshness</h3>
+                <p>We ensure that all our products are farm-fresh and organically grown.</p>
+            </div>
+            <div class="value-card">
+                <h3>Sustainability</h3>
+                <p>Our platform supports eco-friendly farming and reduces food waste.</p>
+            </div>
+            <div class="value-card">
+                <h3>Community</h3>
+                <p>We connect farmers and consumers to create a healthy food ecosystem.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h2>Meet Our Team</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <img src="images/batman.jpg" alt="Founder">
+                <h4>Dineshkumar K</h4>
+                <p>Founder</p>
+            </div>
+            <div class="team-member">
+                <img src="images/bane.jpg" alt="Founder">
+                <h4>Ilam Arunmozhiwelvel</h4>
+                <p>Founder & CTO</p>
+            </div>
+            <div class="team-member">
+                <img src="images/skarlet.jpg" alt="Founder">
+                <h4>Krishna Dhranshini</h4>
+                <p>Founder</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Farm2Bag. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

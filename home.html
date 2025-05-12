@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm2Bag - Fresh & Organic</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 25px;
+            padding: 5px 15px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 15px;
+            width: 200px;
+        }
+
+        .search-bar button {
+            background: #ff9800;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #e68900;
+        }
+
+        .hero {
+            text-align: center;
+            background: url('images/hero-bg.jpg') no-repeat center center/cover;
+            padding: 150px 20px;
+            color: rgb(0, 0, 0);
+            font-size: 1.8em;
+            position: relative;
+            height: 45vh;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-size: 1.2em;
+        }
+
+        .btn:hover {
+            background: #e65100;
+        }
+
+        .category-section,
+        .product-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .categories,
+        .product-list {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-item,
+        .product-item {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .category-item:hover,
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-item img,
+        .product-item img {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+        }
+
+        .category-btn,
+        .view-product {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: #009688;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .category-btn:hover,
+        .view-product:hover {
+            background: #00796b;
+        }
+
+        .popup-container {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            width: 400px;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Centering the product results inside the popup */
+        #popupResults {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* 3 items per row */
+            gap: 15px;
+            /* Space between products */
+            justify-content: center;
+            /* Center the grid */
+            text-align: center;
+            /* Align text center */
+            padding: 10px;
+        }
+
+        .popup-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin: 5px auto;
+            /* Center image */
+        }
+
+        .popup-container h4,
+        .popup-container p {
+            margin: 5px 0;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            /* Push X button to the right */
+            align-items: center;
+            width: 100%;
+        }
+
+        .close-btn {
+            background: rgb(0, 0, 0);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-left: auto;
+            /* Pushes button to the right */
+        }
+
+        .popup-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .popup-item {
+            text-align: center;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-item img {
+            border-radius: 10px;
+        }
+
+        .product-section {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+        }
+
+        .product-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product-item {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .product-item img {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+        }
+
+        .contact-section {
+            padding: 60px 20px;
+            background: #e8f5e9;
+        }
+
+        .contact-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-info {
+            text-align: left;
+            max-width: 400px;
+        }
+
+        .social-icons img {
+            width: 30px;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+
+        .contact-form {
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .contact-form .btn {
+            width: 100%;
+        }
+
+        .category-section,
+        .product-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .categories,
+        .product-list {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-item,
+        .product-item {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .category-item:hover,
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-item img,
+        .product-item img {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+        }
+
+        .category-btn,
+        .view-product {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: #009688;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .category-btn:hover,
+        .view-product:hover {
+            background: #00796b;
+        }
+
+        /* Chat container styling */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            /* Distance from the bottom */
+            right: 20px;
+            /* Distance from the right */
+            z-index: 9999;
+            /* Ensure the chatbot is always on top */
+            width: 350px;
+            /* Width of the chatbot */
+            height: 450px;
+            /* Height of the chatbot */
+            background-color: #fff;
+            /* Background color */
+            border-radius: 10px;
+            /* Rounded corners */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            /* Shadow effect */
+            display: flex;
+            flex-direction: column;
+            /* Stack child elements vertically */
+            overflow: hidden;
+            /* Hide any content that overflows */
+        }
+
+        /* Chat box (message area) styling */
+        .chat-box {
+            flex-grow: 1;
+            /* Takes up most of the space */
+            padding: 10px;
+            overflow-y: auto;
+            /* Scrollable content if messages exceed box height */
+            background-color: #f9f9f9;
+            /* Light background for the message area */
+            font-size: 14px;
+            color: #333;
+            /* Dark text color */
+        }
+
+        /* Individual message styling */
+        .chat-message {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 10px;
+            background-color: #e1e1e1;
+            /* Light gray background for messages */
+            max-width: 80%;
+            /* Limit message width */
+            word-wrap: break-word;
+            /* Wrap long words to fit */
+        }
+
+        /* Input box (for typing messages) */
+        .input-box {
+            display: flex;
+            padding: 10px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            /* Divider between messages and input */
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Input field styling */
+        .input-box input {
+            width: 80%;
+            /* Take up most of the input area */
+            padding: 8px;
+            border: 1px solid #ddd;
+            /* Light border around input field */
+            border-radius: 20px;
+            /* Rounded corners for input field */
+            font-size: 14px;
+        }
+
+        /* Send button styling */
+        .input-box button {
+            width: 15%;
+            /* Button takes up the remaining space */
+            padding: 8px;
+            margin-left: 5px;
+            background-color: #333;
+            /* Dark background for button */
+            color: #fff;
+            /* White text */
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Hover effect for the send button */
+        .input-box button:hover {
+            background-color: #555;
+            /* Lighter shade on hover */
+        }
+
+        /* Styling the scrollbar for chatbox */
+        .chat-box::-webkit-scrollbar {
+            width: 5px;
+            /* Thin scrollbar */
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background-color: #888;
+            /* Darker scrollbar thumb */
+            border-radius: 5px;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+            /* Lighter on hover */
+        }
+
+        footer {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Farm2Bag</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="home.html#categories">Categories</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="profile.php">Profile</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeydown="handleKey(event)">
+            <button onclick="searchProducts()">🔍</button>
+        </div>
+    </header>
+    <section id="home" class="hero">
+        <h1>Fresh & Organic Direct from Farmers</h1>
+        <p>Buy natural, chemical-free, and preservative-free products.</p>
+        <a href="product.html" class="btn">Shop Now</a>
+    </section>
+    <section id="categories" class="category-section">
+        <h2>
+            <Bold>Category Available</Bold>
+        </h2>
+        <h3>Check through our Product page</h3>
+        <div class="categories">
+            <div class="category-item" data-category="fruits">
+                <img src="images/fruits.jpg" alt="Fruits">
+                <button class="category-btn">Fruits</button>
+            </div>
+            <div class="category-item" data-category="vegetables">
+                <img src="images/vegetables.jpg" alt="Vegetables">
+                <button class="category-btn">Vegetables</button>
+            </div>
+            <div class="category-item" data-category="groceries">
+                <img src="images/groceries.jpg" alt="Groceries">
+                <button class="category-btn">Groceries</button>
+            </div>
+            <div class="category-item" data-category="cosmetics">
+                <img src="images/cosmetics.jpg" alt="Cosmetics">
+                <button class="category-btn">Cosmetics</button>
+            </div>
+        </div>
+    </section>
+    <div id="popupContainer" class="popup-container">
+        <div class="popup-header">
+            <h3>Search Results</h3><button class="close-btn" onclick="closePopup()">❌</button>
+        </div>
+        <div id="popupResults" class="popup-results"></div>
+    </div>
+
+    <section id="products" class="product-section">
+        <h2>Our Products</h2>
+        <div class="product-list">
+            <div class="product-item" data-name="chilli powder">
+                <img src="images/chillipowder.jpg" alt="Chilli Powder">
+                <h3>Chilli Powder</h3>
+                <p>₹20/kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="turmeric powder">
+                <img src="images/turmeric.jpg" alt="Turmeric Powder">
+                <h3>Turmeric Powder</h3>
+                <p>₹30/kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="sambar powder">
+                <img src="images/sambar.jpg" alt="Sambar Powder">
+                <h3>Sambar Powder</h3>
+                <p>₹10/kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="apple">
+                <img src="images/sambar.jpg" alt="Apple">
+                <h3>Apple</h3>
+                <p>₹10/kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="carrot">
+                <img src="images/carrot.jpg" alt="Carrot">
+                <h3>Organic Carrots</h3>
+                <p>₹60 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+
+            <div class="product-item" data-name="rice">
+                <img src="images/rice.jpg" alt="Rice">
+                <h3>Natural Rice</h3>
+                <p>₹50 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+
+            <div class="product-item" data-name="milk">
+                <img src="images/milk.jpg" alt="Milk">
+                <h3>Fresh Cow Milk</h3>
+                <p>₹40 per litre</p>
+                <button class="view-product">View</button>
+            </div>
+
+            <div class="product-item" data-name="banana">
+                <img src="images/banana.jpg" alt="Banana">
+                <h3>Organic Bananas</h3>
+                <p>₹30 per dozen</p>
+                <button class="view-product">View</button>
+            </div>
+
+            <div class="product-item" data-name="ghee">
+                <img src="images/ghee.jpg" alt="Ghee">
+                <h3>Ghee</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+
+            <div class="product-item" data-name="butter">
+                <img src="images/butter.webp" alt="Butter">
+                <h3>Butter</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+
+            <div class="product-item" data-name="yogurt">
+                <img src="images/yogurt.jpg" alt="Yoghurt">
+                <h3>Yoghurt</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+
+            <div class="product-item" data-name="curd">
+                <img src="images/curd.jpg" alt="Curd">
+                <h3>Curd</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="grapes">
+                <img src="images/grapes.webp" alt="Grapes">
+                <h3>Grapes</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="pineapple">
+                <img src="images/pineapple.jpg" alt="pineapple">
+                <h3>Pineapple</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="orange">
+                <img src="images/orange.jpg" alt="Orange">
+                <h3>Orange</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="custardapple">
+                <img src="images/custardapple.webp" alt="Custardapple">
+                <h3>Custardapple</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="guava">
+                <img src="images/guava.webp" alt="Guava">
+                <h3>Guava</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="honey">
+                <img src="images/honey.jpg" alt="Honey">
+                <h3>Honey</h3>
+                <p>₹40 per lit</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="gram masala">
+                <img src="images/garammasala.jpg" alt="Garam Masala">
+                <h3>Gram Masalam</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="salt">
+                <img src="images/salt.jpg" alt="Salt">
+                <h3>Salt</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="pepper">
+                <img src="images/pepper.jpg" alt="Pepper">
+                <h3>Pepper</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="rice flour">
+                <img src="images/riceflour.jpg" alt="Rice Flour">
+                <h3>Rice Flour</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="wheat flour">
+                <img src="images/wheatflour.webp" alt="Wheat Flour">
+                <h3>Wheat Flour</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="bay leaf">
+                <img src="images/bayleaf.webp" alt="Bay Leaf">
+                <h3>Bay Leaf</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="methi seeds">
+                <img src="images/methiseeds.webp" alt="Methi seeds">
+                <h3>Methi Seeds</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="ural dal">
+                <img src="images/uraddal.jpg" alt="Ural Dal">
+                <h3>Ural Dal</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="masoor dal">
+                <img src="images/masoordal.webp" alt="Masoor dal">
+                <h3>Masoor Dal</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="chanadal">
+                <img src="images/chanadal.webp" alt="Chanadal">
+                <h3>Chanadal</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="aloavara soap">
+                <img src="images/aloavarasoap.jpg" alt="Aloavara Soap">
+                <h3>Aloavara Soap</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="neem soap">
+                <img src="images/neemsoap.jpg" alt="Neem Soap">
+                <h3>Neem Soap</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="lavender soap">
+                <img src="images/lavendersoap.webp" alt="Lavender Soap">
+                <h3>lavender Soap</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="charcoal soap">
+                <img src="images/charcoalsoap.jpg" alt="Charcoal Soap">
+                <h3>Charcoal Soap</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="neem oil">
+                <img src="images/neemoil.jpg" alt="Neem Oil">
+                <h3>Neem Oil</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="beetroot lip balm">
+                <img src="images/beetrootlipbalm.webp" alt="Beetroot lip Balm">
+                <h3>Beetroot Lip Balam</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="avocado mask">
+                <img src="images/avocadomask.jpg" alt="Avocado Mask">
+                <h3>Avocado Mask</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="peanut">
+                <img src="images/peanut.jpg" alt="Peanut">
+                <h3>Peanut</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="almond">
+                <img src="images/almond.webp" alt="Almond">
+                <h3>Almond</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="pista chios">
+                <img src="images/pistachios.jpg" alt="Pista chios">
+                <h3>Pista chios</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="cashew">
+                <img src="images/cashew.webp" alt="Cashew">
+                <h3>Cashew</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="tomato">
+                <img src="images/tomato.jpg" alt="Tomato">
+                <h3>Tomato</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="potato">
+                <img src="images/potato.jpg" alt="Potato">
+                <h3>Potato</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="big onion">
+                <img src="images/bigonion.jpg" alt="Big Onion">
+                <h3>Big Onion</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="califlower">
+                <img src="images/cauiflower.jpg" alt="Califlower">
+                <h3>Califlower</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="green beans">
+                <img src="images/greenbeans.jpg" alt="Green Beans">
+                <h3>Green Beans</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="samll onion">
+                <img src="images/smallonion.jpg" alt="Small Onion">
+                <h3>Small Onion</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="garlic">
+                <img src="images/garlic.webp" alt="Garlic">
+                <h3>Garlic</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="beetroot">
+                <img src="images/beetroot.jpg" alt="Beetroot">
+                <h3>Beetroot</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="mushroom">
+                <img src="images/mushroom.jpg" alt="Mushroom">
+                <h3>Mushroom</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="cabbage">
+                <img src="images/cabbage.jpg" alt="Cabbage">
+                <h3>Cabbage</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+            <div class="product-item" data-name="spinach">
+                <img src="images/spinach.jpg" alt="Spinach">
+                <h3>Spinach</h3>
+                <p>₹40 per kg</p>
+                <button class="view-product">View</button>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="contact-section">
+        <h2>
+            <center>Contact Us</center>
+        </h2>
+        <p>
+            <center>Have questions? Reach out to us!</center>
+        </p>
+        <div class="contact-container">
+            <div class="contact-info">
+                <p><strong>Address:</strong> 123, Organic Street, Chennai, India</p>
+                <p><strong>Email:</strong> support@farm2bag.com</p>
+                <p><strong>Phone:</strong> +91 98765 43210</p>
+            </div>
+            <div class="contact-form">
+                <h3>Send us a message</h3>
+                <form action="contact.php" method="post">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box"></div>
+            <div class="input-box">
+                <input type="text" id="user-input" placeholder="Ask me anything...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2025 Farm2Bag. All Rights Reserved.</p>
+    </footer>
+    <script>
+        function handleKey(event) {
+            if (event.key === "Enter") {
+                searchProducts();
+            }
+        }
+
+        function searchProducts() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let products = document.querySelectorAll('.product-item');
+            let popupContainer = document.getElementById('popupContainer');
+            let popupResults = document.getElementById('popupResults');
+            popupResults.innerHTML = ""; // Clear previous results
+            let found = false;
+
+            products.forEach(product => {
+                let productName = product.getAttribute('data-name');
+                if (productName.includes(input)) {
+                    found = true;
+                    let imageSrc = product.querySelector('img').src;
+                    let title = product.querySelector('h3').textContent;
+                    let price = product.querySelector('p').textContent;
+
+                    let productDiv = document.createElement('div');
+                    productDiv.classList.add("popup-item");
+                    productDiv.innerHTML = `
+                        <img src="${imageSrc}" alt="${title}">
+                        <h4>${title}</h4>
+                        <p>${price}</p>
+                    `;
+                    popupResults.appendChild(productDiv);
+                }
+            });
+
+            if (!found) {
+                popupResults.innerHTML = "<p>No products found!</p>";
+            }
+
+            popupContainer.style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popupContainer').style.display = 'none';
+        }
+
+        // Chat Bot
+        async function sendMessage() {
+            let input = document.getElementById("user-input").value;
+            let chatBox = document.getElementById("chat-box");
+            if (input.trim() === "") return;
+
+            chatBox.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
+            document.getElementById("user-input").value = "";
+
+            try {
+                let response = await getGeminiResponse(input);
+                chatBox.innerHTML += `<div><strong>Bot:</strong> ${response}</div>`;
+            } catch (error) {
+                chatBox.innerHTML += `<div><strong>Bot:</strong> Sorry, I couldn't process that request.</div>`;
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function getGeminiResponse(userInput) {
+            const API_KEY = "";//Replace you Gemini api key at here
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`
+
+            // Define allowed categories for recommendations
+            const allowedCategories = ["fruit", "vegetable", "cosmetics", "groceries", "dairy product"];
+
+            // Check if the input is related to allowed categories
+            let isRecommendation = allowedCategories.some(category => userInput.toLowerCase().includes(category));
+
+            // Adjust prompt based on user input type
+            let promptText = isRecommendation
+                ? `${userInput}\n\nRecommend only fruits, vegetables, cosmetics, groceries, or dairy products in 3 impactful lines.`
+                : `${userInput}\n\nRespond naturally like a helpful assistant, without making any recommendations.`;
+
+            try {
+                let response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: promptText }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    let errorMessage = await response.text();
+                    console.error("Full API Response:", errorMessage);
+                    throw new Error(`API Error: ${response.statusText}`);
+                }
+
+                let data = await response.json();
+
+                if (!data.candidates || data.candidates.length === 0) {
+                    throw new Error("Invalid API response");
+                }
+
+                return data.candidates[0].content.parts[0].text.trim();
+
+            } catch (error) {
+                console.error("Error fetching AI response:", error);
+                return "I'm having trouble connecting to AI. Please try again later.";
+            }
+        }
+    </script>
+
+</html>

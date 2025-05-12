@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm2Bag - Fresh & Organic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Smooth Animated Gradient Background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0f7fa, #c8e6c9, #fff3e0);
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
+            color: #333;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 200vh;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h2 {
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .navbar .links a {
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .links a:hover {
+            color: #2e7d32;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .buttons .btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: #2e7d32;
+            color: white;
+            border-color: #2e7d32;
+        }
+
+        .btn-primary:hover {
+            background: white;
+            color: #2e7d32;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2e7d32;
+            border-color: #2e7d32;
+        }
+
+        .btn-secondary:hover {
+            background: #2e7d32;
+            color: white;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            color: #2e7d32;
+        }
+
+        .about p {
+            max-width: 700px;
+            margin: auto;
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Features Section */
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .feature {
+            width: 300px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: scale(1.05);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: #f1f8e9;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-size: 2.5rem;
+            color: #2e7d32;
+        }
+
+        .testimonial {
+            max-width: 500px;
+            margin: auto;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+            border-left: 4px solid #2e7d32;
+            padding-left: 15px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h2>Farm2Bag</h2>
+        <div class="links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Fresh & Organic Produce</h1>
+        <p>Your one-stop solution for farm-fresh, chemical-free, and preservative-free groceries.</p>
+        <div class="buttons">
+            <a href="login.php" class="btn btn-primary">Sign In</a>
+            <a href="register.php" class="btn btn-secondary">Sign Up</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <h2>About Farm2Bag</h2>
+        <p>We connect farmers directly with consumers, ensuring fresh, organic, and high-quality produce reaches your
+            doorstep.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature">
+            <h3>100% Organic</h3>
+            <p>All our products are free from chemicals and preservatives.</p>
+        </div>
+        <div class="feature">
+            <h3>Fast Delivery</h3>
+            <p>Get fresh produce delivered to your home quickly and efficiently.</p>
+        </div>
+        <div class="feature">
+            <h3>Fair Pricing</h3>
+            <p>We ensure the best prices for both farmers and consumers.</p>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2>What Our Customers Say</h2>
+        <p class="testimonial">"Farm2Bag has completely changed how I shop for groceries. The produce is always fresh
+            and high quality!"</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2025 Farm2Bag. All Rights Reserved.
+    </footer>
+
+</body>
+
+</html>

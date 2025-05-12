@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 25px;
+            padding: 5px 15px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 15px;
+            width: 200px;
+        }
+
+        .search-bar button {
+            background: #ff9800;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #e68900;
+        }
+
+        .cart-container {
+            width: 600px;
+            margin: auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            flex-grow: 1;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item button {
+            margin: 0 5px;
+            padding: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .cart-item .increase {
+            background-color: green;
+        }
+
+        .cart-item .decrease {
+            background-color: orange;
+        }
+
+        .cart-item .remove {
+            background-color: red;
+        }
+
+        .cart-total {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .clear-cart,
+        .buy-now {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .clear-cart {
+            background-color: black;
+            color: white;
+        }
+
+        .clear-cart:hover {
+            background-color: darkgray;
+        }
+
+        .buy-now {
+            background-color: green;
+            color: white;
+        }
+
+        .buy-now:hover {
+            background-color: darkgreen;
+        }
+
+        footer {
+            background: #004d40;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1em;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Farm2Bag</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="home.html#categories">Categories</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="profile.php">Profile</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeydown="handleKey(event)">
+            <button onclick="searchProducts()">🔍</button>
+        </div>
+    </header>
+    <br><br>
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <ul class="cart-items" id="cart-items"></ul>
+        <p class="cart-total">Total: <span id="cart-total-page">₹0.00</span></p>
+        <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+        <button class="buy-now" onclick="buyNow()">Buy Now</button>
+    </div>
+    <br><br>
+    <footer>
+        <p>&copy; 2025 Farm2Bag. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function displayCart() {
+            let cartItems = document.getElementById("cart-items");
+            let cartTotalPage = document.getElementById("cart-total-page");
+
+            cartItems.innerHTML = "";
+            let totalAmount = 0;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = "<p style='text-align:center;'>Your cart is empty.</p>";
+                cartTotalPage.textContent = "₹0.00";
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                let li = document.createElement("li");
+                li.classList.add("cart-item");
+                let itemTotal = item.price * item.quantity;
+                li.innerHTML = `
+                    ${item.name} - ₹${item.price.toFixed(2)} 
+                    <button class="decrease" onclick="changeQuantity(${index}, -1)">-</button>
+                    ${item.quantity}
+                    <button class="increase" onclick="changeQuantity(${index}, 1)">+</button>
+                    = ₹${itemTotal.toFixed(2)}
+                    <button class="remove" onclick="removeItem(${index})">Remove</button>
+                `;
+                cartItems.appendChild(li);
+                totalAmount += itemTotal;
+            });
+
+            cartTotalPage.textContent = `₹${totalAmount.toFixed(2)}`;
+        }
+
+        function changeQuantity(index, change) {
+            if (cart[index].quantity + change > 0) {
+                cart[index].quantity += change;
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+        function clearCart() {
+            localStorage.removeItem("cart");
+            cart = [];
+            displayCart();
+        }
+
+        function buyNow() {
+            if (cart.length === 0) {
+                alert("Your cart is empty! Please add items before purchasing.");
+                return;
+            }
+
+            let name = prompt("Enter your name:");
+            let email = prompt("Enter your email:");
+
+            fetch("save_order.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, cart })
+            }).then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    clearCart();
+                });
+        }
+
+        displayCart();
+    </script>
+</body>
+
+</html>
